@@ -1,5 +1,6 @@
 ﻿using CoreHal.Graph;
 using CoreHal.Tests.Fixtures;
+using CoreHal.Tests.Fixtures.PropertyTypes;
 using DeepEqual.Syntax;
 using System;
 using System.Collections.Generic;
@@ -90,6 +91,206 @@ namespace CoreHal.Tests
             var graph = new HalGraph(model);
 
             Assert.True(!graph.Contains(fieldExpectedToBeMissing));
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingIntegerProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            const int value = 999;
+
+            var model = new ModelWithIntegerProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingInt32Property_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            const Int32 value = 999;
+
+            var model = new ModelWithInt32Property { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingDecimalProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            const decimal value = 123.0M;
+
+            var model = new ModelWithDecimalProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingFloatProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            const float value = 134.45E-2f;
+
+            var model = new ModelWithFloatProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingDoubleProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            const double value = 0.42e2;
+
+            var model = new ModelWithDoubleProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingDateTimeProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            DateTime value = new DateTime(2020, 6, 28);
+
+            var model = new ModelWithDateTimeProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingBooleanProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            const bool value = true;
+
+            var model = new ModelWithBooleanProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingStringProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            const string value = "MY-VALUE";
+
+            var model = new ModelWithStringProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingGuidProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            Guid value = Guid.Parse("346d6b20-a2ec-4bf1-98c4-bbf897e5f87a");
+
+            var model = new ModelWithGuidProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingTimeSpanProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            TimeSpan value = new TimeSpan(1000);
+
+            var model = new ModelWithTimeSpanProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingNullableIntegerProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            int? value = 12;
+
+            var model = new ModelWithNullableIntegerProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingUserDefinedReferenceTypeProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            ModelWithBooleanProperty value = new ModelWithBooleanProperty { Property = true };
+
+            var model = new ModelWithUserDefinedReferenceTypeProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            var expectedResult = new Dictionary<string, object>
+            {
+                { "Property",  true }
+            };
+
+            Assert.Equal(expected: expectedResult, graph[propertyName]);
+            Assert.Equal(expected: expectedResult.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithModelContainingUserDefinedStructProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            var model = new ModelWithUserDefinedStructProperty() { Property = new UserDefinedStruct("value") };
+
+            var graph = new HalGraph(model);
+
+            var expectedResult = new Dictionary<string, object>
+            {
+                { "Property",  "value" }
+            };
+
+            Assert.Equal(expected: expectedResult, graph[propertyName]);
+            Assert.Equal(expected: expectedResult.GetType(), actual: graph[propertyName].GetType());
+        }
+
+        [Fact]
+        public void Constructing_WithPropertyValueSetToNull_AddsThePropertyWithNullValue()
+        {
+            var model = new SimpleModel() { StringProperty = null };
+
+            var graph = new HalGraph(model);
+
+            Assert.Null(graph["StringProperty"]);
         }
 
         [Fact]
@@ -486,17 +687,6 @@ namespace CoreHal.Tests
             expectedCurieLink4.ShouldDeepEqual(curiesCollection[3]);
         }
 
-
-
-
-
-
-
-
-
-
-
-
         [Fact]
         public void AddingEmbeddedItem_WhichIsNull_ThrowsException()
         {
@@ -547,14 +737,17 @@ namespace CoreHal.Tests
         {
             const string embeddedItemName = "SOME-VALID-STRING";
 
-            var model = new SimpleModel();
-            var graph = new HalGraph(model);
+            var modelAtTopLevel = new SimpleModel();
+            var graph = new HalGraph(modelAtTopLevel);
 
-            var expectedEmbeddedGraph = new HalGraph(model);
+            var modelForEmbedded = new SimpleModel();
+            var expectedEmbeddedGraph = new HalGraph(modelForEmbedded);
 
             var result = (HalGraph)graph.AddEmbeddedItem(embeddedItemName, expectedEmbeddedGraph);
 
-            Assert.IsType<Dictionary<string, object>>(result[1]);
+            var lastKeyIndex = result.Count;
+
+            Assert.IsType<Dictionary<string, object>>(result[lastKeyIndex-1]);
         }
 
         [Fact]

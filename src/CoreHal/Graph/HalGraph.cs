@@ -5,6 +5,7 @@ using System.Linq;
 using Validation;
 using System.Collections.Specialized;
 using CoreHal.Utilities;
+using System.Reflection;
 
 namespace CoreHal.Graph
 {
@@ -29,37 +30,7 @@ namespace CoreHal.Graph
 
             _model = model;
 
-            var modelDictionary = _model.ToDictionary();
-
-            foreach (var keyValuePair in modelDictionary)
-            {
-                if (keyValuePair.Value == null)
-                {
-                    Add(keyValuePair.Key, null);
-                }
-                else if (keyValuePair.Value.GetType().IsPrimitive)
-                {
-                    Add(keyValuePair.Key, keyValuePair.Value);
-                }
-                else if (!PropertyIsSystemType(keyValuePair.Value.GetType()))
-                {
-                    Add(keyValuePair.Key, keyValuePair.Value.ToDictionary());
-                }
-                else
-                {
-                    Add(keyValuePair.Key, keyValuePair.Value);
-                }
-
-            }
-
-        }
-
-        private static bool PropertyIsSystemType(Type propertyType)
-        {
-            return
-                propertyType == typeof(bool)
-                || propertyType == typeof(string)
-                || propertyType == typeof(DateTime);
+            ProcessModelProperties();
         }
 
         public IHalGraph AddLink(string rel, Link link)
@@ -67,12 +38,9 @@ namespace CoreHal.Graph
             Requires.NotNullOrEmpty(rel, nameof(rel));
             Requires.NotNull(link, nameof(link));
 
-            if (!Contains(LinksKey))
-            {
-                Insert(0, LinksKey, new Dictionary<string, object>());
-            }
+            AddLinksCollectionIfDoesNotExist();
 
-            var linksCollection = (Dictionary<string, object>)this[LinksKey];
+            var linksCollection = GetLinksCollection();
 
             if (linksCollection.ContainsKey(rel))
             {
@@ -110,17 +78,13 @@ namespace CoreHal.Graph
         {
             Requires.NotNull(curie, nameof(curie));
 
-            if (!Contains(LinksKey))
-            {
-                Insert(0, LinksKey, new Dictionary<string, object>());
-            }
+            AddLinksCollectionIfDoesNotExist();
 
-            var linksCollection = (Dictionary<string, object>)this[LinksKey];
+            var linksCollection = GetLinksCollection();
 
             if (!linksCollection.ContainsKey(CuriesKey))
             {
-                linksCollection.Add(CuriesKey, new List<CurieLink> {
-                    new CurieLink(curie.Key, curie.Href.ToString()) });
+                linksCollection.Add(CuriesKey, new List<CurieLink> { new CurieLink(curie.Key, curie.Href.ToString()) });
             }
             else
             {
@@ -178,9 +142,66 @@ namespace CoreHal.Graph
             return this;
         }
 
+        private void ProcessModelProperties()
+        {
+            var modelDictionary = _model.ToDictionary();
+
+            foreach (var keyValuePair in modelDictionary)
+            {
+                if(keyValuePair.Value == null)
+                {
+                    Add(keyValuePair.Key, null);
+                }
+                else if (PropertyIsSystemPrimitiveType(keyValuePair))
+                {
+                    Add(keyValuePair.Key, keyValuePair.Value);
+                }
+                else if (PropertyIsSystemReferenceTypeOrStruct(keyValuePair.Value.GetType()))
+                {
+                    Add(keyValuePair.Key, keyValuePair.Value);
+                }
+                else if (keyValuePair.Value.GetType().IsValueType)
+                {
+                    Add(keyValuePair.Key, StructToDictionary.ToDictionary(keyValuePair.Value as ValueType));
+                }
+                else
+                {
+                    Add(keyValuePair.Key, keyValuePair.Value.ToDictionary());
+                }
+            }
+        }
+
+        private static bool PropertyIsSystemPrimitiveType(KeyValuePair<string, object> keyValuePair)
+        {
+            return keyValuePair.Value != null && keyValuePair.Value.GetType().IsPrimitive;
+        }
+
+        private static bool PropertyIsSystemReferenceTypeOrStruct(Type propertyType)
+        {
+            return
+                propertyType == typeof(string)
+                || propertyType == typeof(decimal)
+                || propertyType == typeof(Guid)
+                || propertyType == typeof(DateTime)
+                || propertyType == typeof(TimeSpan);
+        }
+
+        private Dictionary<string, object> GetLinksCollection()
+        {
+            return (Dictionary<string, object>)this[LinksKey];
+        }
+
+        private void AddLinksCollectionIfDoesNotExist()
+        {
+            if (!Contains(LinksKey))
+            {
+                Insert(0, LinksKey, new Dictionary<string, object>());
+            }
+        }
+
         private void RemoveOriginalLinkAndSwapForCollection(string rel, Link originalLink, Link newLink)
         {
-            var linksCollection = (Dictionary<string, object>)this[LinksKey];
+            var linksCollection = GetLinksCollection();
 
             var relLinkkCollection = new List<Link> { originalLink };
             relLinkkCollection.Add(newLink);

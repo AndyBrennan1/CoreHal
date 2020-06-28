@@ -4,7 +4,7 @@ using Xunit;
 
 namespace CoreHal.Tests
 {
-    [Collection("Curie Link Tests")]
+    [Collection("Camel Dash Naming Convention Tests")]
     public class CamelDashNameConventionTests
     {
         [Fact]
