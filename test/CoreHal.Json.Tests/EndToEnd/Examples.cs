@@ -7,9 +7,7 @@ using ApprovalTests.Reporters;
 using ApprovalTests;
 using CoreHal.Graph;
 using CoreHal.PropertyNaming;
-using CoreHal.Json;
 using CoreHal.Json.Tests.EndToEnd.SimpleEcommerceDomain;
-using CoreHal.Json.Tests.Utilities;
 
 namespace CoreHal.Json.Tests.EndToEnd
 {
@@ -108,13 +106,9 @@ namespace CoreHal.Json.Tests.EndToEnd
                 WriteIndented = true
             };
 
-            var expectedOutput = ResourceReader.Get(Properties.Resources.EcommerceExample1);
-
             var responseJson = JsonSerializer.Serialize(orderGraph, typeof(HalGraph), serializerOptions);
 
             Approvals.Verify(responseJson);
-
-            //Approvals.VerifyJson(responseJson);
         }
     }
 }

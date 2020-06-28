@@ -1,9 +1,7 @@
 ﻿using ApprovalTests;
 using ApprovalTests.Reporters;
 using CoreHal.Graph;
-using CoreHal.Json;
 using CoreHal.Json.Tests.Fixtures;
-using CoreHal.Json.Tests.Utilities;
 using CoreHal.PropertyNaming;
 using Moq;
 using System.Collections.Generic;
@@ -15,6 +13,7 @@ namespace CoreHal.Json.Tests.HalGraphCollection
     [Collection("HAL Graph Collection - Json Convertor Tests")]
     public class HalGraphCollectionJsonConvertorTests
     {
+        [UseReporter(typeof(VisualStudioReporter))]
         [Fact]
         public void WritingHalGraphCollection_NoEmbeddedOrLinks_WritesPropertyButOmitsEmbeddedItemsAndLinks()
         {
@@ -30,19 +29,6 @@ namespace CoreHal.Json.Tests.HalGraphCollection
                 halGraphCollection.Add(new HalGraph(model));
             }
 
-            var expectedJson =
-                @"[
-                      {
-                        ""string-Property"": ""String Property 1""
-                      },
-                      {
-                        ""string-Property"": ""String Property 2""
-                      },
-                      {
-                        ""string-Property"": ""String Property 3""
-                      }
-                ]";
-
             var serializerOptions = new JsonSerializerOptions
             {
                 Converters = { new HalGraphCollectionJsonConvertor(propertyNameConvention.Object) },
@@ -51,10 +37,7 @@ namespace CoreHal.Json.Tests.HalGraphCollection
 
             var responseJson = JsonSerializer.Serialize(halGraphCollection, typeof(List<IHalGraph>), serializerOptions);
 
-            var trimmedExpectation = expectedJson.MakeEasyToCompare();
-            var trimmedActual = responseJson.MakeEasyToCompare();
-
-            Assert.Equal(expected: trimmedExpectation, actual: trimmedActual);
+            Approvals.Verify(responseJson);
         }
 
         [UseReporter(typeof(VisualStudioReporter))]

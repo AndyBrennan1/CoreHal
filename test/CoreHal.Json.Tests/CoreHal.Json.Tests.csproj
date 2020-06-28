@@ -6,17 +6,6 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-
-  <ItemGroup>
-    <Content Remove="EndToEnd\ExpectedJson\EcommerceExample1.json" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <EmbeddedResource Include="EndToEnd\ExpectedJson\EcommerceExample1.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="ApprovalTests" Version="5.2.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -31,18 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
