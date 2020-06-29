@@ -29,6 +29,7 @@ steps:
 # BUILD ------------------------------------------------------------------------------------
 
 - task: DotNetCoreCLI@2
+  displayName: Build
   inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
@@ -37,6 +38,7 @@ steps:
 # RUN TESTS -------------------------------------------------------------------------------
 
 - task: DotNetCoreCLI@2
+  displayName: Run Tests
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
@@ -45,7 +47,7 @@ steps:
 # PACKAGE AND PUBLISH TO NUGET -------------------------------------------------------------------------------
     
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet pack $(buildConfiguration)'  
+  displayName: Create Package : 'dotnet pack $(buildConfiguration)'  
   inputs:
     command: pack 
     versioningScheme: byPrereleaseNumber
