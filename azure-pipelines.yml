@@ -39,4 +39,9 @@ steps:
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
     
+# PACKAGE AND PUBLISH TO NUGET -------------------------------------------------------------------------------
 
+- task: NuGetCommand@2
+  inputs:
+    command: pack
+    packagesToPack: 'CoreHal.csproj'
