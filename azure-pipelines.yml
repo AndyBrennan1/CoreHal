@@ -11,6 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  version: 0.1
 
 steps:
 
@@ -37,3 +38,24 @@ steps:
     command: test
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
+    
+# PACKAGE AND PUBLISH TO NUGET -------------------------------------------------------------------------------
+
+- script: dotnet pack /p:PackageVersion=$(version)  # define version variable elsewhere in your pipeline
+
+- task: NuGetCommand@2
+  inputs:
+    command: pack
+    packagesToPack: 'CoreHal.csproj'
+    
+    
+- task: NuGetAuthenticate@0
+  input:
+    nuGetServiceConnections: 'Nuget'
+
+- task: NuGetCommand@2
+  inputs:
+    command: push
+    nuGetFeedType: external
+    versioningScheme: byEnvVar
+    versionEnvVar: <VersionVariableName>
