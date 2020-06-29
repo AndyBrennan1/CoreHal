@@ -12,6 +12,9 @@ pool:
 variables:
   buildConfiguration: 'Release'
   version: 0.1
+  Major: '1'
+  Minor: '0'
+  Patch: '0'
 
 steps:
 
@@ -40,12 +43,14 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
     
 # PACKAGE AND PUBLISH TO NUGET -------------------------------------------------------------------------------
-
+    
 - task: NuGetCommand@2
   inputs:
-    command: pack
+    command: pack 
     packagesToPack: 'CoreHal.csproj'
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '$(Major)'
+    minorVersion: '$(Minor)'
+    patchVersion: '$(Patch)'
 
-- task: NuGetAuthenticate@0
-  inputs:
-    nuGetServiceConnections: 'NuGet.Org'
+
