@@ -45,3 +45,7 @@ steps:
   inputs:
     command: pack
     packagesToPack: 'CoreHal.csproj'
+
+- task: NuGetAuthenticate@0
+  inputs:
+    nuGetServiceConnections: 'NuGet'
