@@ -29,11 +29,10 @@ steps:
 # BUILD ------------------------------------------------------------------------------------
 
 - task: DotNetCoreCLI@2
-  displayName: Build
+  displayName: Build : 'dotnet build $(buildConfiguration)'
   inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
-  displayName: 'dotnet build $(buildConfiguration)'
 
 # RUN TESTS -------------------------------------------------------------------------------
 
