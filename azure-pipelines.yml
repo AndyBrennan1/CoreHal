@@ -48,4 +48,4 @@ steps:
 
 - task: NuGetAuthenticate@0
   inputs:
-    nuGetServiceConnections: 'NuGet'
+    nuGetServiceConnections: 'NuGet.Org'
