@@ -29,7 +29,7 @@ steps:
 # BUILD ------------------------------------------------------------------------------------
 
 - task: DotNetCoreCLI@2
-  displayName: Build : 'dotnet build $(buildConfiguration)'
+  displayName: Build - 'dotnet build $(buildConfiguration)'
   inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
@@ -46,7 +46,7 @@ steps:
 # PACKAGE AND PUBLISH TO NUGET -------------------------------------------------------------------------------
     
 - task: DotNetCoreCLI@2
-  displayName: Create Package : 'dotnet pack $(buildConfiguration)'  
+  displayName: Create Package - 'dotnet pack $(buildConfiguration)'  
   inputs:
     command: pack 
     versioningScheme: byPrereleaseNumber
