@@ -54,7 +54,14 @@ steps:
     minorVersion: '$(Minor)'
     patchVersion: '$(Patch)'
 
-
 - task: NuGetAuthenticate@0
-  input:
+  inputs:
     nuGetServiceConnections: 'Nuget.Org'
+    forceReinstallCredentialProvider: true
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'Nuget.Org'
