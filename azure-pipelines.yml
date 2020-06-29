@@ -48,7 +48,6 @@ steps:
   displayName: 'dotnet pack $(buildConfiguration)'  
   inputs:
     command: pack 
-    packagesToPack: 'CoreHal.csproj'
     versioningScheme: byPrereleaseNumber
     majorVersion: '$(Major)'
     minorVersion: '$(Minor)'
