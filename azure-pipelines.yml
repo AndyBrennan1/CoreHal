@@ -43,6 +43,14 @@ steps:
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
     
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'XUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+    testRunTitle: 'Unit Tests'
+
 # PACKAGE AND PUBLISH TO NUGET -------------------------------------------------------------------------------
     
 - task: DotNetCoreCLI@2
