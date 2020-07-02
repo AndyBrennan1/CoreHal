@@ -183,7 +183,8 @@ namespace CoreHal.Graph
                 || propertyType == typeof(decimal)
                 || propertyType == typeof(Guid)
                 || propertyType == typeof(DateTime)
-                || propertyType == typeof(TimeSpan);
+                || propertyType == typeof(TimeSpan)
+                || propertyType == typeof(Uri);
         }
 
         private Dictionary<string, object> GetLinksCollection()

@@ -284,6 +284,21 @@ namespace CoreHal.Tests
         }
 
         [Fact]
+        public void Constructing_WithModelContainingUriProperty_AddsThePropertyAsExpected()
+        {
+            const string propertyName = "Property";
+            Uri value = new Uri("http://www.google.com");
+
+            var model = new ModelWithUriProperty { Property = value };
+
+            var graph = new HalGraph(model);
+
+            Assert.Equal(expected: value, graph[propertyName]);
+            Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
+        }
+
+
+        [Fact]
         public void Constructing_WithPropertyValueSetToNull_AddsThePropertyWithNullValue()
         {
             var model = new SimpleModel() { StringProperty = null };
