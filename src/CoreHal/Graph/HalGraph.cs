@@ -166,7 +166,10 @@ namespace CoreHal.Graph
                 }
                 else
                 {
-                    Add(keyValuePair.Key, keyValuePair.Value.ToDictionary());
+                    if(!(keyValuePair.Value is IDictionary))
+                    {
+                        Add(keyValuePair.Key, keyValuePair.Value.ToDictionary());
+                    }
                 }
             }
         }

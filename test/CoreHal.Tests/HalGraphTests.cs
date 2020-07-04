@@ -94,7 +94,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingIntegerProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingIntegerProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             const int value = 999;
@@ -108,7 +108,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingInt32Property_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingInt32Property_AddsTheProperty()
         {
             const string propertyName = "Property";
             const Int32 value = 999;
@@ -122,7 +122,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingDecimalProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingDecimalProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             const decimal value = 123.0M;
@@ -136,7 +136,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingFloatProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingFloatProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             const float value = 134.45E-2f;
@@ -150,7 +150,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingDoubleProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingDoubleProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             const double value = 0.42e2;
@@ -164,7 +164,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingDateTimeProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingDateTimeProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             DateTime value = new DateTime(2020, 6, 28);
@@ -178,7 +178,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingBooleanProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingBooleanProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             const bool value = true;
@@ -192,7 +192,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingStringProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingStringProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             const string value = "MY-VALUE";
@@ -206,7 +206,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingGuidProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingGuidProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             Guid value = Guid.Parse("346d6b20-a2ec-4bf1-98c4-bbf897e5f87a");
@@ -220,7 +220,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingTimeSpanProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingTimeSpanProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             TimeSpan value = new TimeSpan(1000);
@@ -234,7 +234,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingNullableIntegerProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingNullableIntegerProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             int? value = 12;
@@ -248,7 +248,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingUserDefinedReferenceTypeProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingUserDefinedReferenceTypeProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             ModelWithBooleanProperty value = new ModelWithBooleanProperty { Property = true };
@@ -267,7 +267,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingUserDefinedStructProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingUserDefinedStructProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             var model = new ModelWithUserDefinedStructProperty() { Property = new UserDefinedStruct("value") };
@@ -284,7 +284,7 @@ namespace CoreHal.Tests
         }
 
         [Fact]
-        public void Constructing_WithModelContainingUriProperty_AddsThePropertyAsExpected()
+        public void Constructing_WithModelContainingUriProperty_AddsTheProperty()
         {
             const string propertyName = "Property";
             Uri value = new Uri("http://www.google.com");
@@ -297,6 +297,23 @@ namespace CoreHal.Tests
             Assert.Equal(expected: value.GetType(), actual: graph[propertyName].GetType());
         }
 
+        [Fact]
+        public void Constructing_WithModelContainingDictionaryProperty_DoesNotAddTheProperty()
+        {
+            const string propertyName = "Property";
+            Dictionary<string, object> value = new Dictionary<string, object>
+            {
+                { "some-string", new { id = "123", name = "Some Anonymous Type" } }
+            };
+
+            var model = new ModelWithDictionaryProperty { 
+                Property = value
+            };
+
+            var graph = new HalGraph(model);
+
+            Assert.Null(graph[propertyName]);
+        }
 
         [Fact]
         public void Constructing_WithPropertyValueSetToNull_AddsThePropertyWithNullValue()
