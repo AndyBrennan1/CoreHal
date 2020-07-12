@@ -5,10 +5,10 @@ using System.Linq;
 using Validation;
 using System.Collections.Specialized;
 using CoreHal.Utilities;
-using System.Reflection;
 
 namespace CoreHal.Graph
 {
+    [Serializable]
     public class HalGraph : OrderedDictionary, IHalGraph, IHalGraphType
     {
         private readonly object _model;

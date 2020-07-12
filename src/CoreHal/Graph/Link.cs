@@ -4,6 +4,7 @@ using Validation;
 
 namespace CoreHal.Graph
 {
+    [Serializable]
     public class Link
     {
         public Uri Href { get; private set; }

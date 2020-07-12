@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace CoreHal.Graph
 {
+    [Serializable]
     public class Curie
     {
         public string Key { get; set; }

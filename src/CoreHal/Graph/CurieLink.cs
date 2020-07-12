@@ -3,6 +3,7 @@ using Validation;
 
 namespace CoreHal.Graph
 {
+    [Serializable]
     public class CurieLink : Link
     {
         public string Name { get; }
