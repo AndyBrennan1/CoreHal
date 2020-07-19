@@ -4,21 +4,42 @@ using Validation;
 
 namespace CoreHal.Graph
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public class Link
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Uri Href { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Templated { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Title { get; set; }
 
         static readonly Regex placeholderRegex = new Regex(@"\{([^\}]+)\}", RegexOptions.Compiled);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="href"></param>
         public Link(string href) : this(href, null)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="href"></param>
+        /// <param name="title"></param>
         public Link(string href, string title)
         {
             Requires.NotNullOrEmpty(href, nameof(href));
@@ -51,6 +72,11 @@ namespace CoreHal.Graph
             Title = title;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="href"></param>
+        /// <returns></returns>
         protected bool ContainsValidPlaceholderUrl(string href)
         {
             if (ContainsPlaceholderInUrl(href) && !ContainsMoreThan1PlaceHolder(href) && TemplatePlaceholderIsAtTheEnd(href))

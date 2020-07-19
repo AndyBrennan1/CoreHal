@@ -8,6 +8,9 @@ using CoreHal.Utilities;
 
 namespace CoreHal.Graph
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public class HalGraph : OrderedDictionary, IHalGraph, IHalGraphType
     {
@@ -17,8 +20,10 @@ namespace CoreHal.Graph
         private const string EmbeddedItemKey = "_embedded";
         private const string CuriesKey = "curies";
 
+        /// <inheritdoc/>
         public Type ModelType => _model.GetType();
 
+        /// <inheritdoc/>
         public HalGraph(object model)
         {
             Requires.NotNull(model, nameof(model));
@@ -33,6 +38,7 @@ namespace CoreHal.Graph
             ProcessModelProperties();
         }
 
+        /// <inheritdoc/>
         public IHalGraph AddLink(string rel, Link link)
         {
             Requires.NotNullOrEmpty(rel, nameof(rel));
@@ -61,6 +67,7 @@ namespace CoreHal.Graph
             return this;
         }
 
+        /// <inheritdoc/>
         public IHalGraph AddLinks(string rel, IEnumerable<Link> links)
         {
             Requires.NotNullOrEmpty(rel, nameof(rel));
@@ -74,6 +81,7 @@ namespace CoreHal.Graph
             return this;
         }
 
+        /// <inheritdoc/>
         public IHalGraph AddCurie(Curie curie)
         {
             Requires.NotNull(curie, nameof(curie));
@@ -95,6 +103,7 @@ namespace CoreHal.Graph
             return this;
         }
 
+        /// <inheritdoc/>
         public IHalGraph AddCuries(IEnumerable<Curie> curies)
         {
             Requires.NotNullOrEmpty(curies, nameof(curies));
@@ -107,6 +116,7 @@ namespace CoreHal.Graph
             return this;
         }
 
+        /// <inheritdoc/>
         public IHalGraph AddEmbeddedItem(string key, IHalGraph embeddedGraph)
         {
             Requires.NotNullOrWhiteSpace(key, nameof(key));
@@ -123,6 +133,7 @@ namespace CoreHal.Graph
             return this;
         }
 
+        /// <inheritdoc/>
         public IHalGraph AddEmbeddedItemCollection(string key, IEnumerable<IHalGraph> embeddedGraphs)
         {
             Requires.NotNullOrWhiteSpace(key, nameof(key));

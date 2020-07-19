@@ -6,8 +6,12 @@ using Validation;
 
 namespace CoreHal.PropertyNaming
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CamelDashNameConvention : IPropertyNameConvention
     {
+        /// <inheritdoc/>
         public string Apply(string propertyName)
         {
             string result;

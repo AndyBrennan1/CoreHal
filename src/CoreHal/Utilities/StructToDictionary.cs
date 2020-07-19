@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace CoreHal.Utilities
 {
-    public static class StructToDictionary
+    internal static class StructToDictionary
     {
-        public static IDictionary<string, object> ToDictionary(ValueType value) 
+        internal static IDictionary<string, object> ToDictionary(ValueType value) 
         {
             var dictionary = new Dictionary<string, object>();
 

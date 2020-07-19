@@ -3,11 +3,22 @@ using Validation;
 
 namespace CoreHal.Graph
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public class CurieLink : Link
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="href"></param>
         public CurieLink(string name, string href) : base(href)
         {
             Requires.NotNullOrEmpty(name, nameof(name));

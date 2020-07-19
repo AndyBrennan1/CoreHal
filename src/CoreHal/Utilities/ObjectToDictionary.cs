@@ -5,9 +5,10 @@ using Validation;
 
 namespace CoreHal.Utilities
 {
-    public static class ObjectToDictionary
+
+    internal static class ObjectToDictionary
     {
-        public static IDictionary<string, object> ToDictionary(this object source)
+        internal static IDictionary<string, object> ToDictionary(this object source)
         {
             Requires.NotNull(source, nameof(source));
 

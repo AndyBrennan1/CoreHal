@@ -4,14 +4,29 @@ using System.Text.RegularExpressions;
 
 namespace CoreHal.Graph
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public class Curie
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Key { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Uri Href { get; set; }
 
         static readonly Regex placeholderRegex = new Regex(@"\{([^\}]+)\}", RegexOptions.Compiled);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="href"></param>
         public Curie(string key, string href)
         {
             Requires.NotNullOrEmpty(key, nameof(key));
